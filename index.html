@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suit Web — Batu Gunting Kertas</title>
+<style>
+  body{font-family:system-ui,Arial,sans-serif;background:#1e293b;color:#f8fafc;text-align:center;margin:0;padding:24px}
+  h1{margin-bottom:4px}
+  .pilihan button{font-size:56px;margin:10px;padding:16px 20px;border:none;border-radius:16px;background:#334155;cursor:pointer}
+  .pilihan button:hover{background:#475569;transform:scale(1.05)}
+  #hasil{font-size:22px;min-height:60px;margin:20px}
+  .skor{display:flex;gap:16px;justify-content:center;margin:20px}
+  .skor div{background:#0f172a;padding:14px 20px;border-radius:12px;min-width:90px}
+  .skor b{font-size:28px;display:block}
+  #reset{padding:10px 22px;border:none;border-radius:10px;background:#ef4444;color:#fff;font-size:16px;cursor:pointer}
+</style>
+</head>
+<body>
+<h1>✊✌️🖐 Suit Web</h1>
+<p>Pilih batu, gunting, atau kertas!</p>
+<div class="pilihan">
+  <button onclick="main('batu')" title="Batu">✊</button>
+  <button onclick="main('gunting')" title="Gunting">✌️</button>
+  <button onclick="main('kertas')" title="Kertas">🖐</button>
+</div>
+<div id="hasil">Klik salah satu pilihan untuk mulai.</div>
+<div class="skor">
+  <div>Menang<b id="menang">0</b></div>
+  <div>Kalah<b id="kalah">0</b></div>
+  <div>Seri<b id="seri">0</b></div>
+</div>
+<button id="reset" onclick="resetSkor()">Reset Skor</button>
+<script>
+const emoji={batu:'✊',gunting:'✌️',kertas:'🖐'};
+const pilihan=['batu','gunting','kertas'];
+let skor={menang:0,kalah:0,seri:0};
+function tentukan(pemain,komputer){
+  if(pemain===komputer) return 'seri';
+  const menangLawan={batu:'gunting',gunting:'kertas',kertas:'batu'};
+  return menangLawan[pemain]===komputer ? 'menang' : 'kalah';
+}
+function main(pemain){
+  const komputer=pilihan[Math.floor(Math.random()*3)];
+  const hasil=tentukan(pemain,komputer);
+  skor[hasil]++;
+  const teks={menang:'🎉 Kamu MENANG!',kalah:'😢 Kamu KALAH!',seri:'🤝 SERI!'}[hasil];
+  document.getElementById('hasil').innerHTML=
+    `Kamu: ${emoji[pemain]} vs Komputer: ${emoji[komputer]}<br><strong>${teks}</strong>`;
+  document.getElementById('menang').textContent=skor.menang;
+  document.getElementById('kalah').textContent=skor.kalah;
+  document.getElementById('seri').textContent=skor.seri;
+}
+function resetSkor(){
+  skor={menang:0,kalah:0,seri:0};
+  document.getElementById('menang').textContent=0;
+  document.getElementById('kalah').textContent=0;
+  document.getElementById('seri').textContent=0;
+  document.getElementById('hasil').textContent='Skor direset. Klik pilihan untuk mulai lagi.';
+}
+</script>
+</body>
+</html>
